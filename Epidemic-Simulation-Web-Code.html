@@ -199,8 +199,8 @@
 				<div id="upperLayer" style='margin:0px;width:100%; height: 35%;overflow: hidden;position: absolute; z-index: 200; display: inline-block; background: none; box-shadow: inset 0px 0px 20px 5px hsla(32, 0%,0%, 1); border: 0px solid black; pointer-events: none;'>
 					 <!-- <span id="R_0" style="font-size: 1vmax; color: white; font-family: Source Sans Pro;">R : 0.1</span>
 					 <span id="R_0-Info" style="font-size: 0.7vmax; color: grey; font-family: Source Sans Pro; float: right; top: 80%;">Reproductive Number Calculation here is a little different from the 3B1B video. <br/>Here, its Average(Number of individuals infected by one infected individual)</span> -->
-				</div>
-				<div id="simpleCaseGraphH" style="width: 100%; height: 35%; overflow: hidden;position: absolute; z-index: 1;display: inline-block;"></div>
+					</div>
+					<div id="simpleCaseGraphH" style="width: 100%; height: 35%; overflow: hidden;position: absolute; z-index: 1;display: inline-block;"></div>
 				<div id="centralLocationCaseGraphH" style="width: 100%; height: 35%; visibility: hidden; overflow: hidden;position: absolute; z-index: 1;display: inline-block;"></div>
 				<div id="communitiesCaseGraphH" style="width: 100%; height: 35%; visibility: hidden; overflow: hidden;position: absolute; z-index: 1;display: inline-block;"></div>
 				<div id="simpleCaseGraph&QH" style="width: 100%; height: 35%; visibility: hidden; overflow: hidden;position: absolute; z-index: 1; display: inline-block;"></div>
@@ -5439,4 +5439,22 @@
 
 	</body>
 <html>
+// 면역 지속 시간 추가
+let immuneDuration = 100;  // 예시로 100일 동안 면역
+
+// 감염 회복된 사람을 처리하는 함수 수정
+function recoverPerson(person) {
+    person.state = "Recovered_with_timer";  // 회복 상태로 전환
+    person.recoveredTime = 0;  // 면역 시간 초기화
+}
+
+// 시뮬레이션에서 각 사람의 상태 업데이트
+function updateState(person) {
+    if (person.state === "Recovered_with_timer") {
+        person.recoveredTime++;  // 회복 이후 시간 증가
+        if (person.recoveredTime >= immuneDuration) {
+            person.state = "Susceptible";  // 일정 시간 후 다시 감수성 있는 상태로 전환
+        }
+    }
+}
 
