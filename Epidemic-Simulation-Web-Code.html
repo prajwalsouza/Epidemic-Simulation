@@ -5439,4 +5439,49 @@
 
 	</body>
 <html>
+// 면역 지속 시간 추가
+let immuneDuration = 100;  // 예시로 100일 동안 면역
+
+// 감염 회복된 사람을 처리하는 함수 수정
+function recoverPerson(person) {
+    person.state = "Recovered_with_timer";  // 회복 상태로 전환
+    person.recoveredTime = 0;  // 면역 시간 초기화
+}
+
+// 시뮬레이션에서 각 사람의 상태 업데이트
+function updateState(person) {
+    if (person.state === "Recovered_with_timer") {
+        person.recoveredTime++;  // 회복 이후 시간 증가
+        if (person.recoveredTime >= immuneDuration) {
+            person.state = "Susceptible";  // 일정 시간 후 다시 감수성 있는 상태로 전환
+        }
+    }
+}
+<!-- 사용자 입력 필드 추가 (HTML) -->
+<label for="reinfectionPeriodInput">Reinfection Period (Days):</label>
+<input type="number" id="reinfectionPeriodInput" value="100" onchange="setReinfectionPeriod(this.value)">
+
+<script>
+// 사용자 설정 재편입 기간 변수
+let reinfectionPeriod = 100;  // 기본값: 100일
+
+// 사용자 입력을 통해 재편입 기간을 설정하는 함수
+function setReinfectionPeriod(value) {
+    reinfectionPeriod = parseInt(value);  // 사용자가 입력한 값을 변수에 저장
+}
+
+function updateState(person) {
+    if (person.state === "Recovered_with_timer") {
+        person.recoveredTime++;  // 회복 이후 시간 증가
+        if (person.recoveredTime >= reinfectionPeriod) {
+            person.state = "Susceptible";  // 재편입 기간이 지나면 감수성 상태로 전환
+        }
+    }
+}
+
+function recoverPerson(person) {
+    person.state = "Recovered_with_timer";  // 회복 상태로 전환
+    person.recoveredTime = 0;  // 회복 시간 초기화
+}
+</script>
 
